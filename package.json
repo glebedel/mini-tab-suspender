@@ -1,0 +1,26 @@
+{
+  "name": "mini-tab-suspender",
+  "version": "1.0.0",
+  "description": "Tampermonkey script to suspend your chrome tab on inactivity",
+  "main": "index.js",
+  "scripts": {
+    "build-ts": "tsc",
+    "template": "ts-node --project tsconfig.tools.json tools/tampermonkey.ts",
+    "build": "npm run build-ts && npm run template"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glebedel/mini-tab-suspender.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/glebedel/mini-tab-suspender/issues"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.31",
+    "@types/wicg-mediasession": "^1.1.0",
+    "handlebars": "^4.7.7",
+    "ts-node": "^9.1.1"
+  }
+}
