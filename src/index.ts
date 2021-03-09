@@ -18,3 +18,9 @@ window.addEventListener('visibilitychange', () => {
     clearTimeout(timeout);
   }
 });
+
+function isMediaPlaying() {
+  const mediaElems: HTMLMediaElement[] = Array.prototype.slice.call(document.querySelectorAll('audio,video'));
+  const mediaElemPlaying = mediaElems.some((elem) => elem.duration > 0 && !elem.paused);
+  return mediaElemPlaying || navigator.mediaSession?.playbackState === 'playing';
+}
