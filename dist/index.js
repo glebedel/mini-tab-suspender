@@ -9,23 +9,26 @@ window.addEventListener('visibilitychange', () => {
         startSuspendTimer();
     }
 });
-function suspendTab() {
+function attemptTabSuspension() {
     if (doNotSuspend()) {
         console.log(`${LOG_PREFIX}Tab not suspendable. Restart Tab Suspension timer!`);
         startSuspendTimer();
     }
     else {
-        console.log(`${LOG_PREFIX}Suspend Tab!`);
-        window.location.href = 'about:blank';
-        document.write(`${renderSuspendedElement()}`);
+        suspendTab();
     }
+}
+function suspendTab() {
+    console.log(`${LOG_PREFIX}Suspend Tab!`);
+    window.location.href = 'about:blank';
+    document.write(`${renderSuspendedElement()}`);
 }
 function startSuspendTimer() {
     if (timeout !== null) {
         clearTimeout(timeout);
     }
     console.log(`${LOG_PREFIX}Tab Suspension ${TAB_TIMEOUT_HOURS}h timer started!`);
-    timeout = setTimeout(suspendTab, HOURS_TO_MS(TAB_TIMEOUT_HOURS));
+    timeout = setTimeout(attemptTabSuspension, HOURS_TO_MS(TAB_TIMEOUT_HOURS));
 }
 function doNotSuspend() {
     return isMediaPlaying();

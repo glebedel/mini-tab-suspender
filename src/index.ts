@@ -18,16 +18,20 @@ window.addEventListener('visibilitychange', () => {
   }
 });
 
-function suspendTab() {
+function attemptTabSuspension() {
   if (doNotSuspend()) {
     // if the tab should not be suspended for any reason we reset the timer.
     console.log(`${LOG_PREFIX}Tab not suspendable. Restart Tab Suspension timer!`);
     startSuspendTimer();
   } else {
-    console.log(`${LOG_PREFIX}Suspend Tab!`);
-    window.location.href = 'about:blank';
-    document.write(`${renderSuspendedElement()}`);
+    suspendTab();
   }
+}
+
+function suspendTab() {
+  console.log(`${LOG_PREFIX}Suspend Tab!`);
+  window.location.href = 'about:blank';
+  document.write(`${renderSuspendedElement()}`);
 }
 
 function startSuspendTimer() {
@@ -35,7 +39,7 @@ function startSuspendTimer() {
     clearTimeout(timeout);
   }
   console.log(`${LOG_PREFIX}Tab Suspension ${TAB_TIMEOUT_HOURS}h timer started!`);
-  timeout = setTimeout(suspendTab, HOURS_TO_MS(TAB_TIMEOUT_HOURS));
+  timeout = setTimeout(attemptTabSuspension, HOURS_TO_MS(TAB_TIMEOUT_HOURS));
 }
 
 /**
@@ -46,7 +50,7 @@ function doNotSuspend() {
 }
 
 /**
- * 
+ *
  * @returns whether or not an audio or video element is playing in tab
  */
 function isMediaPlaying() {
