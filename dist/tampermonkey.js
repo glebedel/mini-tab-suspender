@@ -15,12 +15,19 @@
   const TAB_TIMEOUT_HOURS = 2;
 const HOURS_TO_MS = (hours) => hours * 60 * 60 * 1000;
 const LOG_PREFIX = `Tampermonkey Tab Suspender: `;
-const renderSuspendedElement = () => `<h1>Tab suspended. Refresh to restore the tab.</h1>`;
+var DATA_PARAMETERS;
+(function (DATA_PARAMETERS) {
+    DATA_PARAMETERS["title"] = "title";
+})(DATA_PARAMETERS || (DATA_PARAMETERS = {}));
+const renderSuspendedElement = (tabTitle) => `<h1>${tabTitle}</h1><h2>Tab suspended. Refresh to restore the tab.</h2>`;
 let timeout = null;
 console.log(`${LOG_PREFIX}script running`);
 window.addEventListener('visibilitychange', () => {
     if (document.hidden) {
         startSuspendTimer();
+    }
+    else if (timeout !== null) {
+        clearTimeout(timeout);
     }
 });
 function attemptTabSuspension() {
@@ -34,8 +41,10 @@ function attemptTabSuspension() {
 }
 function suspendTab() {
     console.log(`${LOG_PREFIX}Suspend Tab!`);
-    window.location.href = 'about:blank';
-    document.write(`${renderSuspendedElement()}`);
+    const oldDocumentTitle = document.title;
+    window.location.href = `about:blank`;
+    document.write(`${renderSuspendedElement(oldDocumentTitle)}`);
+    document.title = oldDocumentTitle;
 }
 function startSuspendTimer() {
     if (timeout !== null) {

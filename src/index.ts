@@ -3,8 +3,13 @@ const HOURS_TO_MS = (hours: number) => hours * 60 * 60 * 1000;
 
 const LOG_PREFIX = `Tampermonkey Tab Suspender: `;
 
+enum DATA_PARAMETERS {
+  title = 'title',
+}
+
 // HTML that will be written to the about:blank page when the tab is effectively suspended
-const renderSuspendedElement = () => `<h1>Tab suspended. Refresh to restore the tab.</h1>`;
+const renderSuspendedElement = (tabTitle: string | undefined) =>
+  `<h1>${tabTitle}</h1><h2>Tab suspended. Refresh to restore the tab.</h2>`;
 
 // Variable declared in scope to be able to clear the timeout after it's started
 let timeout: null | number = null;
@@ -15,6 +20,9 @@ console.log(`${LOG_PREFIX}script running`);
 window.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     startSuspendTimer();
+    // if the tab has re-gained focus/visibility we shouldn't abort the suspension timer
+  } else if (timeout !== null) {
+    clearTimeout(timeout);
   }
 });
 
@@ -30,8 +38,12 @@ function attemptTabSuspension() {
 
 function suspendTab() {
   console.log(`${LOG_PREFIX}Suspend Tab!`);
-  window.location.href = 'about:blank';
-  document.write(`${renderSuspendedElement()}`);
+  // The about:blank redirect erases the tab title so we save it first
+  const oldDocumentTitle = document.title;
+  window.location.href = `about:blank`;
+  // Restore the tab title and use it to render content on the blank page
+  document.write(`${renderSuspendedElement(oldDocumentTitle)}`);
+  document.title = oldDocumentTitle;
 }
 
 function startSuspendTimer() {
