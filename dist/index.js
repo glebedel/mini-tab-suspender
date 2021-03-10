@@ -30,7 +30,7 @@ function suspendTab() {
     const oldDocumentTitle = document.title;
     window.location.href = `about:blank`;
     document.write(`${renderSuspendedElement(oldDocumentTitle)}`);
-    document.title = oldDocumentTitle;
+    document.title = `⏸ ${oldDocumentTitle}`;
 }
 function startSuspendTimer() {
     if (timeout !== null) {

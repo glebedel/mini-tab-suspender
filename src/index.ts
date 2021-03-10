@@ -43,7 +43,7 @@ function suspendTab() {
   window.location.href = `about:blank`;
   // Restore the tab title and use it to render content on the blank page
   document.write(`${renderSuspendedElement(oldDocumentTitle)}`);
-  document.title = oldDocumentTitle;
+  document.title = `⏸ ${oldDocumentTitle}`;
 }
 
 function startSuspendTimer() {
