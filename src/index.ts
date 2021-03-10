@@ -9,7 +9,7 @@ enum DATA_PARAMETERS {
 
 // HTML that will be written to the about:blank page when the tab is effectively suspended
 const renderSuspendedElement = (tabTitle: string | undefined) =>
-  `<h1>${tabTitle}</h1><h2>Tab suspended. Refresh to restore the tab.</h2>`;
+  `<h1>${tabTitle}</h1><h2>Tab suspended. Refresh or click to restore the tab.</h2>`;
 
 // Variable declared in scope to be able to clear the timeout after it's started
 let timeout: null | number = null;
@@ -44,6 +44,7 @@ function suspendTab() {
   // Restore the tab title and use it to render content on the blank page
   document.write(`${renderSuspendedElement(oldDocumentTitle)}`);
   document.title = `⏸ ${oldDocumentTitle}`;
+  window.addEventListener('click', () => location.reload());
 }
 
 function startSuspendTimer() {

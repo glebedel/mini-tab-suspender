@@ -5,7 +5,7 @@ var DATA_PARAMETERS;
 (function (DATA_PARAMETERS) {
     DATA_PARAMETERS["title"] = "title";
 })(DATA_PARAMETERS || (DATA_PARAMETERS = {}));
-const renderSuspendedElement = (tabTitle) => `<h1>${tabTitle}</h1><h2>Tab suspended. Refresh to restore the tab.</h2>`;
+const renderSuspendedElement = (tabTitle) => `<h1>${tabTitle}</h1><h2>Tab suspended. Refresh or click to restore the tab.</h2>`;
 let timeout = null;
 console.log(`${LOG_PREFIX}script running`);
 window.addEventListener('visibilitychange', () => {
@@ -31,6 +31,7 @@ function suspendTab() {
     window.location.href = `about:blank`;
     document.write(`${renderSuspendedElement(oldDocumentTitle)}`);
     document.title = `⏸ ${oldDocumentTitle}`;
+    window.addEventListener('click', () => location.reload());
 }
 function startSuspendTimer() {
     if (timeout !== null) {
