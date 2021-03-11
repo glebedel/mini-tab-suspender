@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      1
 // @description  Suspend inactive tabs
-// @author       You
+// @author       Guillaume Lebedel
 // @match        https://*/*
 // @match        http://*/*
 // @exclude      about:blank
@@ -11,8 +11,7 @@
 // ==/UserScript==
 
 (function () {
-  'use strict';
-  const TAB_TIMEOUT_HOURS = 2;
+  const TAB_TIMEOUT_HOURS = 6;
 const HOURS_TO_MS = (hours) => hours * 60 * 60 * 1000;
 const LOG_PREFIX = `Tampermonkey Tab Suspender: `;
 var DATA_PARAMETERS;

@@ -1,4 +1,4 @@
-const TAB_TIMEOUT_HOURS = 2;
+const TAB_TIMEOUT_HOURS = 6;
 const HOURS_TO_MS = (hours: number) => hours * 60 * 60 * 1000;
 
 const LOG_PREFIX = `Tampermonkey Tab Suspender: `;
